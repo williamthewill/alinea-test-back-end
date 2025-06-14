@@ -8,7 +8,9 @@ import { makeExecutableSchema } from '@graphql-tools/schema';
 import { readFileSync } from 'fs';
 import path from 'path';
 import userResolvers from './contexts/user/resolvers';
-import postResolvers from './contexts/post/resolvers';
+import carePlanResolvers from './contexts/carePlan/resolvers';
+import eventResolvers from './contexts/event/resolvers';
+import carePlanHistoryResolvers from './contexts/carePlanHistory/resolvers';
 
 dotenv.config();
 
@@ -16,7 +18,7 @@ const typeDefs = readFileSync(path.join('src/', 'schema.graphql'), 'utf8');
 
 const schema = makeExecutableSchema({
     typeDefs,
-    resolvers: [userResolvers, postResolvers],
+    resolvers: [userResolvers, carePlanResolvers, carePlanHistoryResolvers, eventResolvers],
 });
 
 async function startServer() {

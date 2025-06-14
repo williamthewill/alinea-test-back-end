@@ -16,16 +16,17 @@ Este projeto é uma API GraphQL construída com Node.js, Apollo Server 4, Expres
 ## 📁 Estrutura Base
 
 ```
+prisma
+  migrations/
+  schema.prisma
 src/
   contexts/
     user/
+      model/
       resolvers/
-      services/
-      infra/
-    post/
+    event/
+      model/
       resolvers/
-      services/
-      infra/
   schema.graphql
   server.ts
 ```
@@ -98,20 +99,47 @@ mutation {
   }
 }
 
-# Listar usuários e posts
-query {
-  users {
-    id
-    name
-    posts {
-      title
+# Caputando toda relação aninhada a Eventos
+query Events {
+    events {
+    carePlan {
+      member {
+        id
+      },
+      nurse {
+        id
+      },
+      carePlanHistory {
+        id
+      },
+      trail {
+        id
+      }
     }
   }
-  posts {
+}
+
+# Capturando CarePlans
+query CarePlans {
+  carePlans {
     id
-    title
-    user {
-      name
+  }
+}
+
+# Capturando Events by CarePlanId
+query EventsByCarePlanId($carePlanId: String!) {
+  eventsByCarePlanId(carePlanId: $carePlanId) {
+    id
+  }
+}
+
+# Listar Apenas Eventos de um Membro
+query UserById($userId: String!) {
+  userById(id: $userId) {
+    memberCarePlans {
+      events {
+        id
+      }
     }
   }
 }
@@ -125,10 +153,13 @@ Para rodar as migrations manualmente:
 npx prisma migrate dev --name init
 ```
 
-## 📌 Observações
+## 📌 Requisitos Funcionais Regras de Negócio
 
 * A estrutura segue o conceito de Bounded Context para melhor modularização e manutenção.
 * Prisma Client é regenerado automaticamente nas migrations.
+
+* Relacionamenos da Entidades
+![alt text](endidades.png)
 
 ---
 

@@ -1,19 +1,19 @@
-import { PrismaClient } from '@prisma/client';
-const prisma = new PrismaClient();
+import ModelUser from '../model';
+import ModelCarePlan from '../../carePlan/model';
+
 
 const resolver = {
     Query: {
-        users: () => prisma.user.findMany({ include: { posts: true } }),
+        users: () => ModelUser.getUsers(),
+        userById: (_, { id }) => ModelUser.getUserById(id),
     },
     Mutation: {
-        createUser: (_, args) => prisma.user.create({ data: args }),
-        updateUser: (_, args) => {
-            const { id, ...data } = args;
-            return prisma.user.update({ where: { id }, data });
-        },
+        createUser: (_, args) => ModelUser.createUser(args),
+        updateUser: (_, args) => ModelUser.updateUser(args),
     },
     User: {
-        posts: (parent) => prisma.post.findMany({ where: { userId: parent.id } }),
+        memberCarePlans: (parent) => ModelCarePlan.getCarePlanByMemberId(parent.id),
+        nurseCarePlans: (parent) => ModelCarePlan.getCarePlanByNurseId(parent.id),
     }
 };
 
