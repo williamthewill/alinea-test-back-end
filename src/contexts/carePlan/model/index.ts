@@ -1,4 +1,7 @@
 import { PrismaClient } from '@prisma/client';
+import { GraphQLError } from 'graphql';
+import createCarePlan from './createPlan';
+
 const prisma = new PrismaClient();
 
 const model = {
@@ -7,7 +10,8 @@ const model = {
             events: true,
             carePlanHistory: true,
             member: true,
-            nurse: true
+            nurse: true,
+            trail: true
         }
     }),
     getCarePlanById: (id: string) => prisma.carePlan.findUnique({
@@ -16,7 +20,8 @@ const model = {
             events: true,
             carePlanHistory: true,
             member: true,
-            nurse: true
+            nurse: true,
+            trail: true
         }
     }),
     getCarePlanByMemberId: (memberId: string) => prisma.carePlan.findMany({
@@ -37,7 +42,7 @@ const model = {
             nurse: true
         }
     }),
-    createCarePlan: (args: any) => prisma.carePlan.create({ data: args }),
+    createCarePlan: (args: any) => createCarePlan().create(args),
     updateCarePlan: (args: any) => {
         const { id, ...data } = args;
         return prisma.carePlan.update({ where: { id }, data });
