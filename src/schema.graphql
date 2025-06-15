@@ -74,6 +74,7 @@ type CarePlan {
 type TypeEvent {
   id:          String!
   name:        String!
+  screenName:  String!
   description: String!
   createdAt:   String!
   updatedAt:   String!

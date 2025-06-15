@@ -42,6 +42,7 @@ CREATE TABLE "Trail" (
 CREATE TABLE "TypeEvent" (
     "id" UUID NOT NULL,
     "name" TEXT NOT NULL,
+    "screenName" TEXT NOT NULL,
     "description" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
