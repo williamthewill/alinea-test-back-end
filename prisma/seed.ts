@@ -4,9 +4,9 @@ const prisma = new PrismaClient();
 async function main() {
     const member = await prisma.user.create({
         data: {
-            name: 'John Doe',
+            name: 'João Gomes',
             phone: '1234567890',
-            email: 'johndoe@email.com',
+            email: 'joaogomes@email.com',
             role: "Member",
             password: 'password123',
         },
@@ -36,7 +36,7 @@ async function main() {
         data: {
             name: "Preventivo",
             description: 'This is the initial trail for the member.',
-            screenName: 'Initial Trail',
+            screenName: 'Preventiva',
         },
     });
 
@@ -47,8 +47,8 @@ async function main() {
 
     const carePlanRecurring = await prisma.carePlan.create({
         data: {
-            name: 'Initial Care Plan',
-            screenName: 'initial-care-plan',
+            name: 'diabetes',
+            screenName: 'Diabetes',
             type: "Recurring",
             description: 'This is the initial care plan for the member.',
             trailId: trailId,
@@ -59,8 +59,8 @@ async function main() {
 
     const carePlanProgram = await prisma.carePlan.create({
         data: {
-            name: 'Program Care Plan',
-            screenName: 'program-care-plan',
+            name: 'emagreciemento-consciente',
+            screenName: 'Emagrecimento Consciente',
             type: "Program",
             description: 'This is a program care plan for the member.',
             memberId: memberId,
@@ -68,16 +68,25 @@ async function main() {
         },
     });
 
-    const typeEvent = await prisma.typeEvent.create({
+    const typeEvent1 = await prisma.typeEvent.create({
         data: {
-            name: 'Weekly Check-up',
+            name: 'medicina',
+            screenName: 'Medicina',
             description: 'A weekly check-up event for the member.',
         },
+    });
+    const typeEvent2 = await prisma.typeEvent.create({
+        data: {
+            name: 'nutricao',
+            screenName: 'Nutrição',
+            description: 'A weekly check-up event for the member.',
+        }
     });
 
     const carePlanRecurringId = carePlanRecurring.id.toString();
     const carePlanProgramId = carePlanProgram.id.toString();
-    const typeEventId = typeEvent.id.toString();
+    const typeEventId1 = typeEvent1.id.toString();
+    const typeEventId2 = typeEvent2.id.toString();
 
     await prisma.event.createMany({
         data: [
@@ -85,22 +94,22 @@ async function main() {
                 carePlanId: carePlanRecurringId,
                 expectedDate: new Date('2023-10-01').toISOString(),
                 status: "Agendado",
-                specification: 'Weekly check-up',
-                typeEventId: typeEventId,
+                specification: 'Primeira consulta',
+                typeEventId: typeEventId1,
             },
             {
                 carePlanId: carePlanProgramId,
                 expectedDate: new Date('2023-10-05').toISOString(),
                 status: "Agendado",
-                specification: 'Monthly program review',
-                typeEventId: typeEventId,
+                specification: 'Consulta de Segmento',
+                typeEventId: typeEventId2,
             },
             {
                 carePlanId: carePlanRecurringId,
                 expectedDate: new Date('2023-10-08').toISOString(),
                 status: "Previsto",
-                specification: 'Follow-up on weekly check-up',
-                typeEventId: typeEventId,
+                specification: 'Demanda',
+                typeEventId: typeEventId1,
             },
         ],
     });

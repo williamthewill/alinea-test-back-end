@@ -5,6 +5,7 @@ const model = {
     getEvents: () => prisma.event.findMany({
         include: {
             carePlan: true,
+            typeEvent: true,
         }
     }),
     getEventById: (id: string) => prisma.event.findUnique({
@@ -18,6 +19,7 @@ const model = {
         where: { carePlanId },
         include: {
             carePlan: true,
+            typeEvent: true,
         }
     }),
     createEvent: (args: any) => prisma.event.create({ data: args }),
