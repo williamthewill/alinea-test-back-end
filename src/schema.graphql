@@ -23,7 +23,7 @@ type Mutation {
   updateTrail(id: String!, name: String, description: String, screenName: String): Trail
   createEvent(name: String!, description: String!, screenName: String!, carePlanId: String!): Event
   updateEvent(id: String!, name: String, description: String, screenName: String): Event
-  createCarePlan(name: String!, description: String!, screenName: String!, memberId: String!, nurseId: String!, trailId: String!, type: String!): CarePlan
+  createCarePlan(name: String!, description: String, screenName: String!, memberId: String!, nurseId: String!, trailId: String, type: String!, isActive: Boolean): CarePlan
   updateCarePlan(id: String!, name: String, description: String, screenName: String, isActive: Boolean): CarePlan
   createCarePlanHistory(occurrence: String!, carePlanId: String!): CarePlanHistory
   createEventConflict(firstEventId: String!, secondEventId: String!, dateConflict: String, specificationConflict: String): HasConflicts
@@ -46,20 +46,28 @@ type User {
   nurseCarePlans:  [CarePlan!]
 }
 
+enum CarePlanType {
+  Recurring
+  Program
+}
+
 type CarePlan {
   id: String!
   name: String!
   description: String!
   screenName: String!
-  member: User!
-  nurse: User!
-  trail: Trail!
-  type: String!
+  memberId: String!
+  nurseId: String!
+  trailId: String
+  type: CarePlanType!
   isActive: Boolean!
   createdAt: String!
   updatedAt: String!
 
-  events:          [Event!]
+  member: User!
+  nurse: User!
+  trail: Trail
+  events: [Event!]
   carePlanHistory: [CarePlanHistory!]
 }
 
