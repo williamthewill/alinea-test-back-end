@@ -100,110 +100,108 @@ npm run dev
 ```graphql
 # Criar usuário
 mutation {
-	createUser(
-		name: "João"
-		phone: "123456789"
-		email: "joao@email.com"
-		password: "123"
-		role: "Member"
-	) {
-		name
-		phone
-		email
-		password
-		role
-	}
+  createUser(
+    name: "João"
+    phone: "123456789"
+    email: "joao@email.com"
+    password: "123"
+    role: "Member"
+  ) {
+    name
+    phone
+    email
+    password
+    role
+  }
 }
-
 
 # Criar Plano
 mutation {
-	createCarePlan(
-		name: "TestePlan"
-		description: "TestePlan"
-		screenName: "TestePlan"
-		memberId: "92913eed-46f2-4b1f-8219-7a52971d4426"
-		nurseId: "5c760b15-f5a1-4bff-ba3f-f9a3d102d970"
-		type: "Program"
-		isActive: true
-	) {
-		name
-		description
-		screenName
-		memberId
-		nurseId
-		type
-		isActive
-	}
+  createCarePlan(
+    name: "TestePlan"
+    description: "TestePlan"
+    screenName: "TestePlan"
+    memberId: "92913eed-46f2-4b1f-8219-7a52971d4426"
+    nurseId: "5c760b15-f5a1-4bff-ba3f-f9a3d102d970"
+    type: "Program"
+    isActive: true
+  ) {
+    name
+    description
+    screenName
+    memberId
+    nurseId
+    type
+    isActive
+  }
 }
-
 
 # Capturando toda relação aninhada a Eventos
 query {
-	events {
-		expectedDate
-		specification
-		typeEvent {
-			screenName
-		}
-		carePlan {
-			member {
-				id
-				name
-			}
-			nurse {
-				id
-				name
-			}
-			carePlanHistory {
-				id
-				occurrence
-			}
-			trail {
-				id
-				screenName
-			}
-		}
-	}
+  events {
+    expectedDate
+    specification
+    typeEvent {
+      screenName
+    }
+    carePlan {
+      member {
+        id
+        name
+      }
+      nurse {
+        id
+        name
+      }
+      carePlanHistory {
+        id
+        occurrence
+      }
+      trail {
+        id
+        screenName
+      }
+    }
+  }
 }
 
 # Capturando Events a partir de CarePlan
 query {
-	eventsByCarePlanId(carePlanId: "9e7c9255-064f-4f02-964f-c6daaab1e8ce") {
-		id
-		expectedDate
-		carePlan {
-			screenName
-			type
-			trail {
-				screenName
-			}
-			member {
-				name
-				id
-			}
-		}
-	}
+  eventsByCarePlanId(carePlanId: "9e7c9255-064f-4f02-964f-c6daaab1e8ce") {
+    id
+    expectedDate
+    carePlan {
+      screenName
+      type
+      trail {
+        screenName
+      }
+      member {
+        name
+        id
+      }
+    }
+  }
 }
 
 # Listar Eventos de um Membro
 query {
-	userById(id: "1bc82395-097c-4d19-a0d5-8a242b9017fb") {
-		name
-		memberCarePlans {
-			events {
-				id
-				expectedDate
-				carePlan {
-					name
-					type
-				}
-				typeEvent {
-					screenName
-				}
-			}
-		}
-	}
+  userById(id: "1bc82395-097c-4d19-a0d5-8a242b9017fb") {
+    name
+    memberCarePlans {
+      events {
+        id
+        expectedDate
+        carePlan {
+          name
+          type
+        }
+        typeEvent {
+          screenName
+        }
+      }
+    }
+  }
 }
 ```
 
