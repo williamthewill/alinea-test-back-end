@@ -11,6 +11,7 @@ import userResolvers from './contexts/user/resolvers';
 import carePlanResolvers from './contexts/carePlan/resolvers';
 import eventResolvers from './contexts/event/resolvers';
 import carePlanHistoryResolvers from './contexts/carePlanHistory/resolvers';
+import conflicts from './contexts/conflicts/resolvers';
 
 dotenv.config();
 
@@ -18,7 +19,7 @@ const typeDefs = readFileSync(path.join('src/', 'schema.graphql'), 'utf8');
 
 const schema = makeExecutableSchema({
     typeDefs,
-    resolvers: [userResolvers, carePlanResolvers, carePlanHistoryResolvers, eventResolvers],
+    resolvers: [userResolvers, carePlanResolvers, carePlanHistoryResolvers, eventResolvers, conflicts],
 });
 
 async function startServer() {

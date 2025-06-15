@@ -49,6 +49,10 @@ Para gerear os arquivos de migration do prisma(não é necessário, já fora cri
 ```bash
 npx prisma generate
 ```
+Para gerar data fake seeds
+```bash
+npx prisma db seed
+```
 
 ### 3. Configure as variáveis de ambiente
 

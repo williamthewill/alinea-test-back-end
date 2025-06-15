@@ -12,6 +12,8 @@ type Query {
   carePlanHistoryByCarePlanId(carePlanId: String!): [CarePlanHistory]
   carePlans: [CarePlan]
   carePlan(id: String!): CarePlan
+  eventsConflicts: [HasConflicts!]
+  eventsConflictsByEventId(eventId: String!): [HasConflicts!]
 }
 
 type Mutation {
@@ -24,6 +26,8 @@ type Mutation {
   createCarePlan(name: String!, description: String!, screenName: String!, memberId: String!, nurseId: String!, trailId: String!, type: String!): CarePlan
   updateCarePlan(id: String!, name: String, description: String, screenName: String, isActive: Boolean): CarePlan
   createCarePlanHistory(occurrence: String!, carePlanId: String!): CarePlanHistory
+  createEventConflict(firstEventId: String!, secondEventId: String!, dateConflict: String, specificationConflict: String): HasConflicts
+  resolveEventConflict(firstEventId: String!, secondEventId: String!, resolved: Boolean!): HasConflicts
 }
 
 type User {
@@ -59,21 +63,42 @@ type CarePlan {
   carePlanHistory: [CarePlanHistory!]
 }
 
+type TypeEvent {
+  id:          String!
+  name:        String!
+  description: String!
+  createdAt:   String!
+  updatedAt:   String!
+
+  events:      [Event!]
+}
+
+enum StatusEvent {
+  Agendado
+  Previsto
+}
+
 type Event {
   id: String!
-  name: String!
-  description: String!
-  screenName: String!
   carePlan: CarePlan!
-  carePlanId: String!
+  expectedDate: String!
+  status: String!
+  specification: String!
+  typeEvent: TypeEvent!
   createdAt: String!
   updatedAt: String!
+}
+
+enum TrailName {
+  Preventivo
+  BaixoRisco
+  DoencaCronica
 }
 
 type Trail {
   id: String!
   name: String!
-  description: String!
+  description: TrailName!
   screenName: String!
   createdAt: String!
   updatedAt: String!
@@ -87,4 +112,15 @@ type CarePlanHistory {
   carePlan: CarePlan!
   createdAt: String!
   updatedAt: String!
+}
+
+type HasConflicts {
+  firstEventId: String!
+  secondEventId: String!
+  dateConflict: String!
+  specificationConflict: String!
+  resolved: Boolean!
+
+  firstEvent: Event!
+  secondEvent: Event!
 }

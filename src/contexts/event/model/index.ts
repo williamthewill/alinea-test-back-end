@@ -11,6 +11,7 @@ const model = {
         where: { id },
         include: {
             carePlan: true,
+            typeEvent: true,
         }
     }),
     getEventsByCarePlanId: (carePlanId: string) => prisma.event.findMany({
