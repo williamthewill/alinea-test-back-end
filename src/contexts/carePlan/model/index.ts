@@ -1,5 +1,4 @@
 import { PrismaClient } from '@prisma/client';
-import { GraphQLError } from 'graphql';
 import createCarePlan from './createPlan';
 
 const prisma = new PrismaClient();
